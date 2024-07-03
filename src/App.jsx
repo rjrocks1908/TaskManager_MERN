@@ -24,7 +24,10 @@ function App() {
             setBoardModalOpen={setBoardModalOpen}
           />
 
-          <Center />
+          <Center
+            boardModalOpen={boardModalOpen}
+            setBoardModalOpen={setBoardModalOpen}
+          />
         </>
       ) : (
         <>
