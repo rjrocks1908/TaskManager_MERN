@@ -9,6 +9,7 @@ function AddEditTaskModal({
   device,
   setOpenAddEditTask,
   prevColIndex = 0,
+  setIsTaskModalOpen,
   taskIndex,
 }) {
   const [title, setTitle] = useState("");
@@ -25,8 +26,26 @@ function AddEditTaskModal({
   );
   const columns = board.columns;
   const col = columns.find((col, index) => index === prevColIndex);
+  const task = col?.tasks.find((task, index) => index === taskIndex);
+
   const [status, setStatus] = useState(columns[prevColIndex].name);
   const [newColIndex, setNewColIndex] = useState(prevColIndex);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  if (type === "edit" && isFirstLoad) {
+    setSubtasks(
+      task.subtasks.map((subtask) => {
+        return {
+          ...subtask,
+          id: uuidv4(),
+        };
+      })
+    );
+
+    setTitle(task.title);
+    setDescription(task.description);
+    setIsFirstLoad(false);
+  }
 
   const onSubtaskDelete = (id) => {
     setSubtasks((prevState) =>
