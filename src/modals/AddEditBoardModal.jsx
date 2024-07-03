@@ -1,17 +1,32 @@
 import React, { useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
 import { RxCross2 } from "react-icons/rx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addBoard, editBoard } from "../store/boardSlice";
 
 function AddEditBoard({ setBoardModalOpen, type }) {
   const [name, setName] = useState("");
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [newColumns, setNewColumns] = useState([
     { name: "Todo", task: [], id: uuidv4() },
     { name: "Doing", task: [], id: uuidv4() },
   ]);
   const [isValid, setIsValid] = useState(true);
+  const board = useSelector((state) => state.boards).find(
+    (board) => board.isActive
+  );
   const dispatch = useDispatch();
+
+  if (type === "edit" && isFirstLoad) {
+    setNewColumns(
+      board.columns.map((column) => {
+        return { ...column, id: uuidv4() };
+      })
+    );
+
+    setName(board.name);
+    setIsFirstLoad(false);
+  }
 
   const onBoardColumnNameChange = (id, newValue) => {
     setNewColumns((prev) => {
