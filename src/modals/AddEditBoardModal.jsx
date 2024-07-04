@@ -8,8 +8,8 @@ function AddEditBoard({ setBoardModalOpen, type }) {
   const [name, setName] = useState("");
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [newColumns, setNewColumns] = useState([
-    { name: "Todo", task: [], id: uuidv4() },
-    { name: "Doing", task: [], id: uuidv4() },
+    { name: "Todo", tasks: [], id: uuidv4() },
+    { name: "Doing", tasks: [], id: uuidv4() },
   ]);
   const [isValid, setIsValid] = useState(true);
   const board = useSelector((state) => state.boards).find(
@@ -125,7 +125,7 @@ function AddEditBoard({ setBoardModalOpen, type }) {
             onClick={() => {
               setNewColumns((prev) => [
                 ...prev,
-                { name: "", task: [], id: uuidv4() },
+                { name: "", tasks: [], id: uuidv4() },
               ]);
             }}
           >
